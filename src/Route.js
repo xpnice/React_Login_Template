@@ -1,6 +1,6 @@
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-
+import Home from './Home'
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 const Routes = () => {
@@ -20,6 +20,11 @@ const Routes = () => {
                 component={SignUp}
                 exact
                 path="/sign-up"
+            />
+             <Route
+                component={Home}
+                exact
+                path="/home"
             />
             <Redirect to="/not-found" />
         </Switch>

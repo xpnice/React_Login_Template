@@ -9,6 +9,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
+import md5 from "md5"
 
 //import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -63,7 +64,7 @@ export default function SignIn(props) {
     const url = 'http://120.55.41.240:20522';
     //const url = 'http://192.168.193.80:20521';
 
-    const data = { process: 'signin', username: formState.values.email, password: formState.values.password };
+    const data = { process: 'signin', username: formState.values.email, password: md5(formState.values.password) };
     try {
       const response = await fetch(url, {
         method: 'POST', // or 'PUT'
@@ -73,7 +74,7 @@ export default function SignIn(props) {
         }
       });
       const json = await response.json();
-      Console.log('Success:', JSON.stringify(json));
+      Console.log(response);
       //Console.log(json.status)
       if (json.status === 'WRONG') {
         alert('账号或密码错误!')
@@ -82,11 +83,11 @@ export default function SignIn(props) {
           loading: false
         }));
       }
-      if (json.status === 'OK') {
+      if (response.ok) {
         //store.dispatch({ type: 'sign', username: formState.values.email })
-        var user_info = { username: formState.values.email };
+        var user_info = { userinfo: json};
         var path = {
-          pathname: '/dashboard',
+          pathname: '/home',
           query: user_info,
         }
         history.push(path);

@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 
-
+import md5 from "md5"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -84,7 +84,13 @@ export default function SignUp(props) {
       loading: true
     }));
     const url = 'http://120.55.41.240:20522';
-    const data = { process: 'signup', username: formState.values.email, password: formState.values.password };
+    const data = { 
+      process: 'signup', 
+      username: formState.values.username, 
+      password: md5(formState.values.password) ,
+      email:formState.values.email,
+      gender:formState.values.gender
+    };
     try {
       const response = await fetch(url, {
         method: 'POST', // or 'PUT'
@@ -129,14 +135,15 @@ export default function SignUp(props) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="username"
+                name="username"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="username"
+                label="User Name"
                 autoFocus
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -144,10 +151,11 @@ export default function SignUp(props) {
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="gender"
+                label="Gender"
+                name="gender"
+                autoComplete="gen"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
